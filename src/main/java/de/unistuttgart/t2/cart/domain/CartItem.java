@@ -5,24 +5,24 @@ import java.util.Map;
 
 import org.springframework.data.annotation.Id;
 
-public class CartEntry {
+public class CartItem {
 	@Id
 	private String id;
 	private Map<String, Integer> content;
 	
-	public CartEntry(String id, Map<String, Integer> content) {
+	public CartItem(String id, Map<String, Integer> content) {
 		super();
 		this.id = id;
 		this.content = content;
 	}
 	
-	public CartEntry(String id) {
+	public CartItem(String id) {
 		super();
 		this.id = id;
 		this.content = new HashMap<>();
 	}
 	
-	public CartEntry() {
+	public CartItem() {
 		super();
 		this.content = new HashMap<>();
 	}
@@ -39,13 +39,4 @@ public class CartEntry {
 	public void setContent(Map<String, Integer> content) {
 		this.content = content;
 	}
-	
-	public void updateProduct(String productId, Integer units) {
-		Integer current = 0;
-		if(content.containsKey(productId)) {
-			current = content.get(productId);
-		}
-		content.put(productId, current + units);
-	}
-
 }
