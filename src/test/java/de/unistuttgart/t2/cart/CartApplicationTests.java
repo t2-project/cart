@@ -157,6 +157,4 @@ class CartApplicationTests {
 		assertFalse(repository.existsById(id));
 		assertEquals(initialSize-1, repository.findAll().size());
 	}
-
-
 }
