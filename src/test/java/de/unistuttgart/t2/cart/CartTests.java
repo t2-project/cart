@@ -25,7 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.unistuttgart.t2.cart.repository.CartItem;
 import de.unistuttgart.t2.cart.repository.CartRepository;
-import de.unistuttgart.t2.common.domain.CartContent;
+import de.unistuttgart.t2.common.CartContent;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = TestContext.class)
