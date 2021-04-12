@@ -1,4 +1,4 @@
-package de.unistuttgart.t2.cart.domain;
+package de.unistuttgart.t2.cart.repository;
 
 import java.util.HashMap;
 import java.util.Map;

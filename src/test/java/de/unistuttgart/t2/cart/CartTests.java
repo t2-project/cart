@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import de.unistuttgart.t2.cart.domain.CartItem;
+import de.unistuttgart.t2.cart.repository.CartItem;
 import de.unistuttgart.t2.cart.repository.CartRepository;
 import de.unistuttgart.t2.common.domain.CartContent;
 
