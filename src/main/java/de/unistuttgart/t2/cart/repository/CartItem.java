@@ -1,5 +1,7 @@
 package de.unistuttgart.t2.cart.repository;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,21 +12,21 @@ public class CartItem {
 	private String id;
 	private Map<String, Integer> content;
 	
+	private Date creationDate; 
+	
 	public CartItem(String id, Map<String, Integer> content) {
 		super();
 		this.id = id;
 		this.content = content;
+		creationDate = Date.from(Instant.now()); // ???
 	}
 	
 	public CartItem(String id) {
-		super();
-		this.id = id;
-		this.content = new HashMap<>();
+		this(id, new HashMap<>());
 	}
 	
 	public CartItem() {
-		super();
-		this.content = new HashMap<>();
+		this(null, new HashMap<>());
 	}
 	
 	public String getId() {
@@ -38,5 +40,13 @@ public class CartItem {
 	}
 	public void setContent(Map<String, Integer> content) {
 		this.content = content;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 }
