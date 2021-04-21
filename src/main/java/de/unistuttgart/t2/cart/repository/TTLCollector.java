@@ -32,7 +32,7 @@ public class TTLCollector {
 
 	@Value("${TTL:20}") // in seconds
 	long TTL;
-	@Value("${taskRate:2000}") // in milliseconds
+	@Value("${taskRate:20000}") // in milliseconds
 	int taskRate;
 
 	@Autowired
