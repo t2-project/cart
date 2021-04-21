@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @Component
-public class TTLCollector {
+public class TimeoutCollector {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 
@@ -43,24 +43,18 @@ public class TTLCollector {
 
 	@PostConstruct
 	public void schedulePeriodically() {
-		taskScheduler.scheduleAtFixedRate(new RunnableTask("Fixed Rate of 2 seconds"), taskRate);
+		taskScheduler.scheduleAtFixedRate(new RunnableTask(), taskRate);
 	}
 
 	class RunnableTask implements Runnable {
 
-		private String message;
-
-		public RunnableTask(String message) {
-			this.message = message;
-		}
-
 		@Override
 		public void run() {
-			System.out.println("Runnable Task with " + message + " on thread " + Thread.currentThread().getName());
 			List<String> expiredItems = getExpiredItems();
 			for (String id : expiredItems) {
 				deleteItem(id);
 			}
+			LOG.info(String.format("delete %d expired items", expiredItems.size()));
 		}
 
 		/**

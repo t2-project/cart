@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 import de.unistuttgart.t2.cart.repository.CartRepository;
-import de.unistuttgart.t2.cart.repository.TTLCollector;
+import de.unistuttgart.t2.cart.repository.TimeoutCollector;
 
 @Configuration
 @EnableAutoConfiguration
@@ -16,8 +16,8 @@ import de.unistuttgart.t2.cart.repository.TTLCollector;
 @Profile("test")
 public class TestContext {
     @Bean 
-    public TTLCollector collector() {
-    	return new TTLCollector();
+    public TimeoutCollector collector() {
+    	return new TimeoutCollector();
     }
     
     @Bean
