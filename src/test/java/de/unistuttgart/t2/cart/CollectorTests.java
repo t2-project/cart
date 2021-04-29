@@ -27,37 +27,37 @@ import de.unistuttgart.t2.cart.repository.TimeoutCollector;
  */
 class CollectorTests {
 	
-	private long initialSize;
-	
-	@Autowired CartRepository repository;
-	
-	@Autowired TimeoutCollector collector;
+//	private long initialSize;
+//	
+//	@Autowired CartRepository repository;
+//	
+//	@Autowired TimeoutCollector collector;
 	
 	// defaults: 
 	// TTL = 20 sec
 	// taskRate = 20000 milli sec = 20 sec
 	
-	@BeforeEach
-	public void populateRepository() {
-		repository.deleteAll();
-	}
+//	@BeforeEach
+//	public void populateRepository() {
+//		repository.deleteAll();
+//	}
 	
 	
-	@Test
-	public void collectSingleEntryTest() throws InterruptedException {
-		CartItem emptyCart = new CartItem("foo");
-		initialSize = repository.findAll().size();
-		
+//	@Test
+//	public void collectSingleEntryTest() throws InterruptedException {
+//		CartItem emptyCart = new CartItem("foo");
+//		initialSize = repository.findAll().size();
+//		
 //		Thread.sleep(4000);
 //		
 //		assertEquals(initialSize - 1, repository.count());	
-	}
+//	}
 	
-	@Test
-	public void collectMultipleEntryTest() throws InterruptedException {
-		for (int i = 0; i < 5; i++) {
-			repository.save(new CartItem());			
-		}
+//	@Test
+//	public void collectMultipleEntryTest() throws InterruptedException {
+//		for (int i = 0; i < 5; i++) {
+//			repository.save(new CartItem());			
+//		}
 		
 //		initialSize = repository.count();
 //		
@@ -66,5 +66,5 @@ class CollectorTests {
 //		
 //		Thread.sleep(4000);
 //		assertEquals(initialSize - 5, repository.count());
-	}
+//	}
 }

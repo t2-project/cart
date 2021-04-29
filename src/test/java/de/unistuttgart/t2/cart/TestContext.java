@@ -15,16 +15,16 @@ import de.unistuttgart.t2.cart.repository.TimeoutCollector;
 @EnableMongoRepositories(basePackageClasses = {CartRepository.class})
 @Profile("test")
 public class TestContext {
-    @Bean 
-    public TimeoutCollector collector() {
-    	return new TimeoutCollector();
-    }
-    
-    @Bean
-    public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
-        ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
-        threadPoolTaskScheduler.setPoolSize(5);
-        threadPoolTaskScheduler.setThreadNamePrefix("ThreadPoolTaskScheduler");
-        return threadPoolTaskScheduler;
-    }
+//    @Bean 
+//    public TimeoutCollector collector() {
+//    	return new TimeoutCollector();
+//    }
+//    
+//    @Bean
+//    public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
+//        ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
+//        threadPoolTaskScheduler.setPoolSize(5);
+//        threadPoolTaskScheduler.setThreadNamePrefix("ThreadPoolTaskScheduler");
+//        return threadPoolTaskScheduler;
+//    }
 }
