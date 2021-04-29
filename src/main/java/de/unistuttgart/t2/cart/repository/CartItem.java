@@ -14,19 +14,23 @@ public class CartItem {
 	
 	private Date creationDate; 
 	
-	public CartItem(String id, Map<String, Integer> content) {
+	public CartItem(String id, Map<String, Integer> content, Date creationDate) {
 		super();
 		this.id = id;
 		this.content = content;
-		creationDate = Date.from(Instant.now()); // ???
+		this.creationDate = creationDate;
+	}
+	
+	public CartItem(String id, Map<String, Integer> content) {
+		this(id, content, Date.from(Instant.now()));
 	}
 	
 	public CartItem(String id) {
-		this(id, new HashMap<>());
+		this(id, new HashMap<>(), Date.from(Instant.now()));
 	}
 	
 	public CartItem() {
-		this(null, new HashMap<>());
+		this(null, new HashMap<>(), Date.from(Instant.now()));
 	}
 	
 	public String getId() {

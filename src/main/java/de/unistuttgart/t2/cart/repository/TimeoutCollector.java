@@ -16,10 +16,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * periodically checks the repository and deletes entities whose ttl expired.
+ * responsible for deleting cart items that exceeded their time to live.
  * 
  * actually you can mongo native attach an expiry date to documents, but i don't
- * how the repository interface works (and wether each item is its own document)
+ * how the repository interface works (and whether each item is its own document)
  * thus manual deletion.
  * 
  * @author maumau
@@ -30,10 +30,10 @@ public class TimeoutCollector {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 
-	@Value("${TTL:20}") // in seconds
-	long TTL;
-	@Value("${taskRate:20000}") // in milliseconds
-	int taskRate;
+	@Value("${TTL:2}") // in seconds
+	protected long TTL;
+	@Value("${taskRate:2000}") // in milliseconds
+	protected int taskRate;
 
 	@Autowired
 	CartRepository repository;
@@ -49,6 +49,12 @@ public class TimeoutCollector {
 		}
 	}
 
+	/**
+	 * executed periodically, checks the repository and deletes entities whose ttl expired.
+	 * 
+	 * @author maumau
+	 *
+	 */
 	class RunnableTask implements Runnable {
 
 		@Override
@@ -63,17 +69,17 @@ public class TimeoutCollector {
 		/**
 		 * get all ids of all expired items.
 		 * 
-		 * get first and delete later because i want to lock db as little as possible.
+		 * get first and delete later such that the db is locked as little as possible.
+		 * all items that were created earlier than TTL seconds before 'now' are expired.
 		 * 
 		 * @return
 		 */
 		private List<String> getExpiredItems() {
 			List<String> rval = new ArrayList<>();
 			List<CartItem> items = repository.findAll();
-			Date now = Date.from(Instant.now().plusSeconds(TTL));
+			Date threshold = Date.from(Instant.now().minusSeconds(TTL));
 			for (CartItem item : items) {
-				// check creation date vs. TTL
-				if (item.getCreationDate().before(now)) { // fix duration, but that's the gist
+				if (item.getCreationDate().before(threshold)) { 
 					rval.add(item.getId());
 				}
 			}
