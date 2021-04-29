@@ -18,3 +18,4 @@ spring.data.mongodb.uri | MONGO_HOST | uri of the mongo db
 t2.TTL		| T2_CART_TTL | time to live of items in cart (in seconds)
 t2.taskRate	| T2_CART_TASKRATE | rate at which the cart checks for items that exceeded their TTL (in milliseconds)
 
+setting either t2.TTL or t2.taskrate to a value less or equal to zero disables the collection of expired cart entries.

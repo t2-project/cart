@@ -43,7 +43,10 @@ public class TimeoutCollector {
 
 	@PostConstruct
 	public void schedulePeriodically() {
-		taskScheduler.scheduleAtFixedRate(new RunnableTask(), taskRate);
+		//disable
+		if (taskRate > 0 && TTL > 0) {
+			taskScheduler.scheduleAtFixedRate(new RunnableTask(), taskRate);
+		}
 	}
 
 	class RunnableTask implements Runnable {
