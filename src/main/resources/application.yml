@@ -2,10 +2,12 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://${MONGO_URL}:27017/data
+      uri: mongodb://${MONGO_HOST}:27017/data
 
-TTL: 30
-taskRate: 5000
+t2:
+  cart:
+    TTL: ${T2_CART_TTL}
+    taskRate: ${T2_CART_TASKRATE}
 
 management:
   endpoints:

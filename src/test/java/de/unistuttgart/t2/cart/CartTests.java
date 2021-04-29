@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -30,7 +31,8 @@ import de.unistuttgart.t2.common.CartContent;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = TestContext.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class CartApplicationTests {
+@ActiveProfiles("test")
+class CartTests {
 	
 
 	@LocalServerPort
