@@ -30,9 +30,9 @@ public class TimeoutCollector {
 
 	private final Logger LOG = LoggerFactory.getLogger(getClass());
 
-	@Value("${TTL:2}") // in seconds
+	@Value("${t2.cart.TTL:0}") // in seconds
 	protected long TTL;
-	@Value("${taskRate:2000}") // in milliseconds
+	@Value("${t2.cart.taskRate:0}") // in milliseconds
 	protected int taskRate;
 
 	@Autowired
