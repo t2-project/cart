@@ -1,0 +1,26 @@
+### CART
+spring:
+  data:
+    mongodb:
+      uri: mongodb://${MONGO_URL}:27017/data
+
+TTL: 30
+taskRate: 5000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: cart
+
+opentracing:
+  jaeger:
+    service-name: cart
+    enabled: TRUE
+    udp-sender:
+      host: localhost
