@@ -8,6 +8,18 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 import de.unistuttgart.t2.cart.repository.CartRepository;
 
+/**
+ * Manages the products in the users carts. 
+ * 
+ * <p>
+ * Users are distinguished by their session's ids.
+ * 
+ * <p> 
+ * Neither controller nor Service because all endpoints are generated.  
+ * 
+ * @author maumau
+ *
+ */
 @SpringBootApplication
 @EnableMongoRepositories(basePackageClasses = CartRepository.class)
 public class CartApplication {

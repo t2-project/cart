@@ -16,11 +16,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * responsible for deleting cart items that exceeded their time to live.
+ * Periodically checks all reservations and deletes those whose time to life has been exceeded.
  * 
- * actually you can mongo native attach an expiry date to documents, but i don't
- * how the repository interface works (and whether each item is its own document)
- * thus manual deletion.
+ * <p>
+ * (apparently there is a mongo native attach on expiry date to documents, but i didn't find anything on
+ * whether this also works with the spring repository interface. thus the manual deletion.)
  * 
  * @author maumau
  *
@@ -41,40 +41,49 @@ public class TimeoutCollector {
 	@Autowired
 	private ThreadPoolTaskScheduler taskScheduler;
 
+	/**
+     * Schedule the task to check cart contents and delete them if necessary.
+     * 
+     * <p>
+     * If either the TTL or the taskRate is 0, no task will be scheduled.
+     */
 	@PostConstruct
 	public void schedulePeriodically() {
 		//disable
 		if (taskRate > 0 && TTL > 0) {
-			taskScheduler.scheduleAtFixedRate(new RunnableTask(), taskRate);
+			taskScheduler.scheduleAtFixedRate(new CartDeletionTask(), taskRate);
 		}
 	}
 
 	/**
-	 * executed periodically, checks the repository and deletes entities whose ttl expired.
+	 * The Task that does the actual checking and deleting.
 	 * 
 	 * @author maumau
 	 *
 	 */
-	class RunnableTask implements Runnable {
+	class CartDeletionTask implements Runnable {
 
 		@Override
 		public void run() {
-			List<String> expiredItems = getExpiredItems();
-			for (String id : expiredItems) {
-				deleteItem(id);
+			List<String> expiredItems = getExpiredCarts();
+			for (String sessionId : expiredItems) {
+				deleteItem(sessionId);
 			}
-			LOG.info(String.format("delete %d expired items", expiredItems.size()));
+			LOG.info(String.format("deleted %d expired items", expiredItems.size()));
 		}
 
 		/**
-		 * get all ids of all expired items.
+		 * Get all ids of expired carts.
 		 * 
-		 * get first and delete later such that the db is locked as little as possible.
-		 * all items that were created earlier than TTL seconds before 'now' are expired.
+		 * <p>
+		 * The get step is separated from the delete step because i want to lock the db as little as possible and need not do it for getting the ids.
+		 * 
+		 * <p>
+		 * Carts that were created earlier than {@code TTL} seconds before 'now' are expired.
 		 * 
 		 * @return
 		 */
-		private List<String> getExpiredItems() {
+		private List<String> getExpiredCarts() {
 			List<String> rval = new ArrayList<>();
 			List<CartItem> items = repository.findAll();
 			Date threshold = Date.from(Instant.now().minusSeconds(TTL));
@@ -87,16 +96,13 @@ public class TimeoutCollector {
 		}
 
 		/**
-		 * delete item from db.
+		 * Delete cart from repository.
 		 * 
-		 * this is a stand alone method because i do not know how save delete is, but i
-		 * know that annotating a method with 'transactional' makes it save.
-		 * 
-		 * @param id of item to be deleted.
+		 * @param sessionId to identify the cart to be deleted.
 		 */
 		@Transactional
-		private void deleteItem(String id) {
-			repository.deleteById(id);
+		private void deleteItem(String sessionId) {
+			repository.deleteById(sessionId);
 		}
 	}
 }

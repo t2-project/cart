@@ -7,6 +7,17 @@ import java.util.Map;
 
 import org.springframework.data.annotation.Id;
 
+/**
+ * 
+ * The content of someones cart. 
+ * 
+ * <p>
+ * Cart items have a {@code creationDate} such that they might be killed after
+ * they exceeded their time to life. 
+ * 
+ * @author maumau
+ *
+ */
 public class CartItem {
 	@Id
 	private String id;
