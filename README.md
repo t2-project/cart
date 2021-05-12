@@ -1,8 +1,8 @@
 # Cart Service
 
-This service manages shopping carts for the T2 Store.
-The content of a user's shopping cart is simply a map of Strings to Integers.
-Within the context of the T2 Store it contains for each user the products (identified by their id) and how many units of each the users wants to buy.
+This service manages the shopping carts for the T2 Store.
+The content of a user's shopping cart is a map of Strings to Integers.
+Within the context of the T2 Store it contains which products (identified by their id) and how many units there of a users wants to buy.
 
 
 ## Build and Run Manually
@@ -19,16 +19,16 @@ _**TODO: copy from Order was mangus checked it.**_
 
 Confere e.g. spring's [Accessing JPA Data with REST](https://spring.io/guides/gs/accessing-data-rest/) on how to talk to the generated endpoints in general.
 
-An examplatory request to GET the cart content of the user "foo" : 
+An examplatory request to GET the cart content of the user "foo".
+They have 2 units of productA and 1 unit of product B in their cart. 
 ```
 curl localhost:8080/cart/foo
 ```
-Response : 
 ```
 {
   "content" : {
-    "607819f88949803a9bffd280" : 2,
-    "asdf" : 2
+    "productA" : 2,
+    "productB" : 1
   },
   "creationDate" : "2021-05-12T16:20:55.211+00:00",
   "_links" : {
