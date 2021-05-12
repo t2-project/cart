@@ -1,8 +1,8 @@
 # Cart Service
 
 This service manages shopping carts for the T2 Store.
-The content a users shopping cart is simply a map of Strings to Integers.
-Within the context of the T2 Store the cart stores for each user the products (identified by its id) and how many units thereof the users wants to buy.
+The content of a user's shopping cart is simply a map of Strings to Integers.
+Within the context of the T2 Store it contains for each user the products (identified by their id) and how many units of each the users wants to buy.
 
 
 ## Build and Run Manually
