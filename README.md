@@ -5,9 +5,9 @@ The content of a user's shopping cart is a map of Strings to Integers.
 Within the context of the T2 Store it contains which products (identified by their id) and how many units there of a users wants to buy.
 
 
-## Build and Run Manually
+## Build and Run
 
-_**TODO: copy from Order was mangus checked it.**_
+Confer the [Documentation](https://t2-documentation.readthedocs.io/en/latest/guides/kube.html) on how to build, run or deploy the T2 Store services.
 
 ## HTTP Endpoints
 
@@ -17,9 +17,9 @@ _**TODO: copy from Order was mangus checked it.**_
 
 ## Usage
 
-Confere e.g. spring's [Accessing JPA Data with REST](https://spring.io/guides/gs/accessing-data-rest/) on how to talk to the generated endpoints in general.
+Confer e.g. spring's [Accessing JPA Data with REST](https://spring.io/guides/gs/accessing-data-rest/) on how to talk to the generated endpoints in general.
 
-An examplatory request to GET the cart content of the user "foo".
+An example request to GET the cart content of the user "foo".
 They have 2 units of productA and 1 unit of product B in their cart. 
 ```
 curl localhost:8080/cart/foo
