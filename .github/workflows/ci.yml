@@ -30,8 +30,8 @@ jobs:
         distribution: 'adopt'
         java-version: '11'
     - name: build common
-      run: cd common && mvn clean install
+      run: cd common && ./mvnw clean install
     - name: install common
-      run: cd common && ls -lah && echo $JACOCO_VERSION &&  echo $JAEGER_VERSION && mvn install:install-file -Dfile=./target/common-1.0-SNAPSHOT.jar  -DpomFile=./pom.xml
+      run: cd common && ls -lah && echo $JACOCO_VERSION &&  echo $JAEGER_VERSION && ./mvnw install:install-file -Dfile=./target/common-1.0-SNAPSHOT.jar  -DpomFile=./pom.xml
     - name: verify cart
-      run: cd cart && mvn clean verify
+      run: cd cart && ./mvnw clean verify
