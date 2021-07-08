@@ -9,9 +9,11 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 import de.unistuttgart.t2.cart.repository.CartRepository;
 import de.unistuttgart.t2.cart.repository.TimeoutCollector;
+import io.opentracing.contrib.java.spring.jaeger.starter.JaegerAutoConfiguration;
+import io.opentracing.contrib.spring.web.starter.ServerTracingAutoConfiguration;
 
 @Configuration
-@EnableAutoConfiguration
+@EnableAutoConfiguration(exclude = {ServerTracingAutoConfiguration.class, JaegerAutoConfiguration.class})
 @EnableMongoRepositories(basePackageClasses = {CartRepository.class})
 @Profile("test")
 public class TestContext {
