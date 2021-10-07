@@ -7,41 +7,7 @@ Within the context of the T2 Store it contains which products (identified by the
 
 ## Build and Run
 
-Confer the [Documentation](https://t2-documentation.readthedocs.io/en/latest/guides/kube.html) on how to build, run or deploy the T2 Store services.
-
-## HTTP Endpoints
-
-(generated with spring-boot-starter-data-rest)
-
-* ``/cart/{id}`` POST, GET or DELETE cart content identified by ``id``
-
-## Usage
-
-Confer e.g. spring's [Accessing JPA Data with REST](https://spring.io/guides/gs/accessing-data-rest/) on how to talk to the generated endpoints in general.
-
-An example request to GET the cart content of the user "foo".
-They have 2 units of productA and 1 unit of product B in their cart. 
-```
-curl localhost:8080/cart/foo
-```
-```
-{
-  "content" : {
-    "productA" : 2,
-    "productB" : 1
-  },
-  "creationDate" : "2021-05-12T16:20:55.211+00:00",
-  "_links" : {
-    "self" : {
-      "href" : "http://localhost:8080/cart/foo"
-    },
-    "cart" : {
-      "href" : "http://localhost:8080/cart/foo"
-    }
-  }
-}
-
-```
+Confer the [Documentation](https://t2-documentation.readthedocs.io/en/latest/guides/kube.html) on how to build, run or deploy and use the T2 Store services.
 
 ## Application Properties
 (./src/main/resources/application.yml)
