@@ -1,8 +1,16 @@
 ### CART
 spring:
+  application:
+    name: cart
   data:
     mongodb:
       uri: mongodb://${MONGO_HOST}:27017/data
+  sleuth:
+    enabled: true
+    sampler:
+      probability: 1
+  zipkin:
+    baseUrl: ${ZIPKIN_BASEURL}
 
 t2:
   cart:
@@ -29,11 +37,3 @@ management:
       enabled: true
     readinessState:
       enabled: true
-
-
-opentracing:
-  jaeger:
-    service-name: cart
-    enabled: TRUE
-    udp-sender:
-      host: ${JAEGER_HOST}
