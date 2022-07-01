@@ -7,8 +7,8 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 import de.unistuttgart.t2.cart.repository.CartRepository;
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.OpenAPI;
+import de.unistuttgart.t2.common.BaseScan;
+import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.info.Info;
 
 /**
@@ -23,7 +23,7 @@ import io.swagger.v3.oas.models.info.Info;
  * @author maumau
  *
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackageClasses = BaseScan.class)
 @EnableMongoRepositories(basePackageClasses = CartRepository.class)
 public class CartApplication {
 
