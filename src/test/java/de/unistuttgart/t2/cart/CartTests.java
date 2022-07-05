@@ -1,49 +1,36 @@
 package de.unistuttgart.t2.cart;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Map;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.*;
+
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.*;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import de.unistuttgart.t2.cart.repository.CartItem;
-import de.unistuttgart.t2.cart.repository.CartRepository;
+import de.unistuttgart.t2.cart.repository.*;
 import de.unistuttgart.t2.common.CartContent;
 
 /**
- * 
  * Test for the generated endpoints.
- * 
  * <p>
  * Set up like this:
  * <ul>
  * <li>Make request to cart endpoints.
  * <li>Assert correctness of reply
  * </ul>
- * 
- * This is kind of stupid because the endpoints are generated and i'd assume
- * that generated stuff works as intended.
- * 
- * @author maumau
+ * This is kind of stupid because the endpoints are generated and i'd assume that generated stuff works as intended.
  *
+ * @author maumau
  */
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = TestContext.class)
@@ -71,7 +58,7 @@ class CartTests {
 
     @Test
     public void getEmptyCartTest(@Autowired CartRepository repository)
-            throws JsonMappingException, JsonProcessingException {
+        throws JsonMappingException, JsonProcessingException {
         // make request
         String response = restTemplate.getForObject("http://localhost:" + port + "/cart/foo", String.class);
 
@@ -87,7 +74,7 @@ class CartTests {
 
     @Test
     public void getFullCartTest(@Autowired CartRepository repository)
-            throws JsonMappingException, JsonProcessingException {
+        throws JsonMappingException, JsonProcessingException {
 
         // make request
         String response = restTemplate.getForObject("http://localhost:" + port + "/cart/bar", String.class);

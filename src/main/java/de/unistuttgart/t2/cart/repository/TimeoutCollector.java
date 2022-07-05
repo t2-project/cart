@@ -1,37 +1,29 @@
 package de.unistuttgart.t2.cart.repository;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import javax.annotation.PostConstruct;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.slf4j.*;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Periodically checks all reservations and deletes those whose time to life has
- * been exceeded.
- * 
+ * Periodically checks all reservations and deletes those whose time to life has been exceeded.
  * <p>
- * (apparently there is a mongo native attach on expiry date to documents, but i
- * didn't find anything on whether this also works with the spring repository
- * interface. thus the manual deletion.)
- * 
- * @author maumau
+ * (apparently there is a mongo native attach on expiry date to documents, but i didn't find anything on whether this
+ * also works with the spring repository interface. thus the manual deletion.)
  *
+ * @author maumau
  */
 @Component
 public class TimeoutCollector {
 
-    private long TTL; // seconds
-    private int taskRate; // milliseconds
+    private final long TTL; // seconds
+    private final int taskRate; // milliseconds
 
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 
@@ -43,9 +35,9 @@ public class TimeoutCollector {
 
     /**
      * Create collector.
-     * 
-     * @param TTL       the cart entries' time to live in seconds
-     * @param taskRate  rate at which the collector checks the repo in milliseconds
+     *
+     * @param TTL      the cart entries' time to live in seconds
+     * @param taskRate rate at which the collector checks the repo in milliseconds
      */
     @Autowired
     public TimeoutCollector(@Value("${t2.cart.TTL:0}") long TTL, @Value("${t2.cart.taskRate:0}") int taskRate) {
@@ -55,10 +47,8 @@ public class TimeoutCollector {
 
     /**
      * Schedule the task to check cart contents and delete them if necessary.
-     * 
      * <p>
      * If the taskRate is 0, no task will be scheduled.
-     * 
      */
     @PostConstruct
     public void scheduleTask() {
@@ -69,9 +59,8 @@ public class TimeoutCollector {
 
     /**
      * The Task that does the actual checking and deleting.
-     * 
-     * @author maumau
      *
+     * @author maumau
      */
     protected class CartDeletionTask implements Runnable {
 
@@ -86,15 +75,12 @@ public class TimeoutCollector {
 
         /**
          * Get all ids of expired carts.
-         * 
          * <p>
-         * The get step is separated from the delete step because i want to lock the db
-         * as little as possible and need not do it for getting the ids.
-         * 
+         * The get step is separated from the delete step because i want to lock the db as little as possible and need
+         * not do it for getting the ids.
          * <p>
-         * Carts that were created earlier than {@code TTL} seconds before 'now' are
-         * expired.
-         * 
+         * Carts that were created earlier than {@code TTL} seconds before 'now' are expired.
+         *
          * @return
          */
         private List<String> getExpiredCarts() {
@@ -111,7 +97,7 @@ public class TimeoutCollector {
 
         /**
          * Delete cart from repository.
-         * 
+         *
          * @param sessionId to identify the cart to be deleted.
          */
         @Transactional
