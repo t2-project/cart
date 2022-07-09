@@ -11,7 +11,7 @@
     <artifactId>cart</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>cart</name>
-    <description>cart of t2 store</description>
+    <description>cart of T2-Project</description>
     <properties>
         <java.version>11</java.version>
     </properties>
