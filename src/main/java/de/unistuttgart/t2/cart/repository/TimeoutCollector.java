@@ -2,6 +2,7 @@ package de.unistuttgart.t2.cart.repository;
 
 import java.time.Instant;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -20,12 +21,17 @@ import org.springframework.transaction.annotation.Transactional;
  * @author maumau
  */
 @Component
-public class TimeoutCollector {
+public final class TimeoutCollector {
+
+    private static final Logger LOG = LoggerFactory.getLogger(TimeoutCollector.class);
 
     private final long TTL; // seconds
     private final int taskRate; // milliseconds
-
-    private final Logger LOG = LoggerFactory.getLogger(getClass());
+    final Runnable cleanup = () -> {
+        Collection<String> expiredCarts = getExpiredCarts();
+        deleteItems(expiredCarts);
+        LOG.info(String.format("deleted %d expired carts", expiredCarts.size()));
+    };
 
     @Autowired
     private CartRepository repository;
@@ -53,56 +59,33 @@ public class TimeoutCollector {
     @PostConstruct
     public void scheduleTask() {
         if (taskRate > 0) {
-            taskScheduler.scheduleAtFixedRate(new CartDeletionTask(), taskRate);
+            taskScheduler.scheduleAtFixedRate(cleanup, taskRate);
         }
     }
 
     /**
-     * The Task that does the actual checking and deleting.
+     * Get all ids of expired carts.
+     * <p>
+     * The get step is separated from the delete step because i want to lock the db as little as possible and need not
+     * do it for getting the ids.
+     * <p>
+     * Carts that were created earlier than {@code TTL} seconds before 'now' are expired.
      *
-     * @author maumau
+     * @return all expired cart IDs
      */
-    protected class CartDeletionTask implements Runnable {
+    private Collection<String> getExpiredCarts() {
+        return repository.findAll().parallelStream()
+            .filter(item -> item.getCreationDate().before(Date.from(Instant.now().minusSeconds(TTL))))
+            .map(CartItem::getId).collect(Collectors.toList());
+    }
 
-        @Override
-        public void run() {
-            List<String> expiredItems = getExpiredCarts();
-            for (String sessionId : expiredItems) {
-                deleteItem(sessionId);
-            }
-            LOG.info(String.format("deleted %d expired items", expiredItems.size()));
-        }
-
-        /**
-         * Get all ids of expired carts.
-         * <p>
-         * The get step is separated from the delete step because i want to lock the db as little as possible and need
-         * not do it for getting the ids.
-         * <p>
-         * Carts that were created earlier than {@code TTL} seconds before 'now' are expired.
-         *
-         * @return
-         */
-        private List<String> getExpiredCarts() {
-            List<String> rval = new ArrayList<>();
-            List<CartItem> items = repository.findAll();
-            Date threshold = Date.from(Instant.now().minusSeconds(TTL));
-            for (CartItem item : items) {
-                if (item.getCreationDate().before(threshold)) {
-                    rval.add(item.getId());
-                }
-            }
-            return rval;
-        }
-
-        /**
-         * Delete cart from repository.
-         *
-         * @param sessionId to identify the cart to be deleted.
-         */
-        @Transactional
-        private void deleteItem(String sessionId) {
-            repository.deleteById(sessionId);
-        }
+    /**
+     * Delete cart from repository.
+     *
+     * @param ids the ids of all carts to delete
+     */
+    @Transactional
+    private void deleteItems(Collection<String> ids) {
+        repository.deleteByIdIn(ids);
     }
 }

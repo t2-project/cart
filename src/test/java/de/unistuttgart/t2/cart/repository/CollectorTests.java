@@ -39,12 +39,7 @@ class CollectorTests {
 
     @Test
     public void collectAllEntriesTest() throws InterruptedException {
-
-        // WFT o_O
-        TimeoutCollector.CartDeletionTask task = collector.new CartDeletionTask();
-
-        task.run();
-
+        collector.cleanup.run();
         assertEquals(0, repository.count());
     }
 
@@ -54,11 +49,7 @@ class CollectorTests {
         item.setCreationDate(Date.from(Instant.now().plusSeconds(60)));
         repository.save(item);
 
-        // WFT o_O
-        TimeoutCollector.CartDeletionTask task = collector.new CartDeletionTask();
-
-        task.run();
-
+        collector.cleanup.run();
         assertEquals(1, repository.count());
     }
 }

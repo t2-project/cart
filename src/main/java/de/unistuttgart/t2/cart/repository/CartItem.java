@@ -12,7 +12,7 @@ import org.springframework.data.annotation.Id;
  *
  * @author maumau
  */
-public class CartItem {
+public final class CartItem {
 
     @Id
     private String id;
@@ -31,11 +31,11 @@ public class CartItem {
     }
 
     public CartItem(String id) {
-        this(id, new HashMap<>(), Date.from(Instant.now()));
+        this(id, new HashMap<>());
     }
 
     public CartItem() {
-        this(null, new HashMap<>(), Date.from(Instant.now()));
+        this(null);
     }
 
     public String getId() {
