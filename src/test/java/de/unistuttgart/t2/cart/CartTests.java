@@ -28,7 +28,7 @@ import de.unistuttgart.t2.common.CartContent;
  * <li>Make request to cart endpoints.
  * <li>Assert correctness of reply
  * </ul>
- * This is kind of stupid because the endpoints are generated and i'd assume that generated stuff works as intended.
+ * This is kind of stupid because the endpoints are generated and I'd assume that generated stuff works as intended.
  *
  * @author maumau
  */
@@ -129,7 +129,6 @@ class CartTests {
         CartContent cc = new CartContent(Map.of(key, value));
         restTemplate.put("http://localhost:" + port + "/cart/" + id, cc);
 
-        // asser repository
         assertTrue(repository.existsById(id));
         assertEquals(initialSize, repository.findAll().size());
 
@@ -148,7 +147,6 @@ class CartTests {
         String id = "bar";
         restTemplate.delete("http://localhost:" + port + "/cart/" + id);
 
-        // asser repository
         assertFalse(repository.existsById(id));
         assertEquals(initialSize - 1, repository.findAll().size());
     }

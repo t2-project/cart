@@ -17,7 +17,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBootTest
 @ActiveProfiles("test")
 /**
- * actually i was trying to test my collector.. but timing is a bad bitch and it fucks me up.
+ * Actually, I was trying to test my collector.<br>
+ * But timing is a bad bitch and it fucks me up.
  *
  * @author maumau
  */

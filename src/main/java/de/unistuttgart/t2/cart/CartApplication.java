@@ -14,7 +14,7 @@ import io.swagger.v3.oas.models.info.Info;
 /**
  * Manages the products in the users carts.
  * <p>
- * Users are distinguished by their session's ids.
+ * Users are distinguished by their session ids.
  * <p>
  * Neither controller nor Service because all endpoints are generated.
  *
