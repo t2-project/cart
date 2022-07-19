@@ -27,11 +27,6 @@ public final class TimeoutCollector {
 
     private final long TTL; // seconds
     private final int taskRate; // milliseconds
-    final Runnable cleanup = () -> {
-        Collection<String> expiredCarts = getExpiredCarts();
-        deleteItems(expiredCarts);
-        LOG.info(String.format("deleted %d expired carts", expiredCarts.size()));
-    };
 
     @Autowired
     private CartRepository repository;
@@ -59,8 +54,14 @@ public final class TimeoutCollector {
     @PostConstruct
     public void scheduleTask() {
         if (taskRate > 0) {
-            taskScheduler.scheduleAtFixedRate(cleanup, taskRate);
+            taskScheduler.scheduleAtFixedRate(this::cleanup, taskRate);
         }
+    }
+
+    void cleanup() {
+        Collection<String> expiredCarts = getExpiredCarts();
+        deleteItems(expiredCarts);
+        LOG.info(String.format("deleted %d expired carts", expiredCarts.size()));
     }
 
     /**
