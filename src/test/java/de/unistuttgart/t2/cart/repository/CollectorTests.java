@@ -17,7 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBootTest
 @ActiveProfiles("test")
 /**
- * actually i was trying to test my collector.. but timing is a bad bitch and it fucks me up.
+ * Tests that the collector for expired carts works as expected.
  *
  * @author maumau
  */
@@ -39,12 +39,7 @@ class CollectorTests {
 
     @Test
     public void collectAllEntriesTest() throws InterruptedException {
-
-        // WFT o_O
-        TimeoutCollector.CartDeletionTask task = collector.new CartDeletionTask();
-
-        task.run();
-
+        collector.cleanup();
         assertEquals(0, repository.count());
     }
 
@@ -54,11 +49,7 @@ class CollectorTests {
         item.setCreationDate(Date.from(Instant.now().plusSeconds(60)));
         repository.save(item);
 
-        // WFT o_O
-        TimeoutCollector.CartDeletionTask task = collector.new CartDeletionTask();
-
-        task.run();
-
+        collector.cleanup();
         assertEquals(1, repository.count());
     }
 }

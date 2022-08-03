@@ -1,13 +1,13 @@
 # Cart Service
 
-This service manages the shopping carts for the T2 Store.
+This service manages the shopping carts for the T2-Project.
 The content of a user's shopping cart is a map of Strings to Integers.
-Within the context of the T2 Store it contains which products (identified by their id) and how many units there of a users wants to buy.
+Within the context of the T2-Project it contains which products (identified by their id) and how many units there of a users wants to buy.
 
 
 ## Build and Run
 
-Confer the [Documentation](https://t2-documentation.readthedocs.io/en/latest/guides/kube.html) on how to build, run or deploy and use the T2 Store services.
+Confer the [Documentation](https://t2-documentation.readthedocs.io/en/latest/guides/kube.html) on how to build, run or deploy and use the T2-Project services.
 
 ## Application Properties
 (./src/main/resources/application.yml)

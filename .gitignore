@@ -37,3 +37,4 @@ build/
 **/*local.yaml
 **/*local.yml
 
+/test-classes/

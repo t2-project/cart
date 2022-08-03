@@ -8,11 +8,11 @@ import org.springframework.data.annotation.Id;
 /**
  * The content of someones cart.
  * <p>
- * Cart items have a {@code creationDate} such that they might be killed after they exceeded their time to life.
+ * Cart items have a {@code creationDate} so that they can be killed once they exceed their time to life.
  *
  * @author maumau
  */
-public class CartItem {
+public final class CartItem {
 
     @Id
     private String id;
@@ -31,11 +31,11 @@ public class CartItem {
     }
 
     public CartItem(String id) {
-        this(id, new HashMap<>(), Date.from(Instant.now()));
+        this(id, new HashMap<>());
     }
 
     public CartItem() {
-        this(null, new HashMap<>(), Date.from(Instant.now()));
+        this(null);
     }
 
     public String getId() {
