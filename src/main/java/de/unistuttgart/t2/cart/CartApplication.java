@@ -20,7 +20,7 @@ import io.swagger.v3.oas.models.info.Info;
  *
  * @author maumau
  */
-@SpringBootApplication(scanBasePackageClasses = BaseScan.class)
+@SpringBootApplication(scanBasePackageClasses = { BaseScan.class, CartApplication.class })
 @EnableMongoRepositories(basePackageClasses = CartRepository.class)
 public class CartApplication {
 
