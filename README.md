@@ -6,7 +6,7 @@ Within the context of the T2-Project it contains which products (identified by t
 
 ## Build and Run
 
-Refer to the [Documentation](https://t2-documentation.readthedocs.io/en/latest/guides/deploy.html) on how to build, run or deploy and use the T2-Project services.
+Refer to the [Documentation](https://t2-documentation.readthedocs.io/en/latest/microservices/deploy.html) on how to build, run or deploy and use the T2-Project services.
 
 ## Application Properties
 
