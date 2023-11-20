@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.4</version>
+        <version>3.1.5</version>
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
     <groupId>de.unistuttgart.t2</groupId>
@@ -13,7 +13,7 @@
     <name>cart</name>
     <description>cart of T2-Project</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -35,11 +35,12 @@
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
+            <version>${env.T2_MICROMETER_VERSION}</version>
         </dependency>
         <dependency>
             <groupId>io.opentracing.contrib</groupId>
             <artifactId>opentracing-spring-jaeger-cloud-starter</artifactId>
-            <version>${JAEGER_VERSION}</version>
+            <version>${env.T2_JAEGER_VERSION}</version>
         </dependency>
 
         <dependency>
@@ -51,30 +52,41 @@
         <!-- for openAPI and swagger -->
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>${SPRINGDOC_VERSION}</version>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${env.T2_SPRINGDOC_VERSION}</version>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-data-rest</artifactId>
-            <version>${SPRINGDOC_VERSION}</version>
+            <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+            <version>${env.T2_SPRINGDOC_VERSION}</version>
         </dependency>
         <!-- common things -->
         <dependency>
             <groupId>de.unistuttgart.t2</groupId>
             <artifactId>common</artifactId>
-            <version>${T2_COMMON_VERSION}</version>
+            <version>${env.T2_COMMON_VERSION}</version>
         </dependency>
 
         <!-- db for tests -->
         <dependency>
             <groupId>de.flapdoodle.embed</groupId>
-            <artifactId>de.flapdoodle.embed.mongo</artifactId>
+            <artifactId>de.flapdoodle.embed.mongo.spring31x</artifactId>
+            <version>4.9.3</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
+        <!-- Enable resource filtering to be able to get the project version as an env var-->
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/application*.yaml</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -83,7 +95,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${JACOCO_VERSION}</version>
+                <version>${env.T2_JACOCO_VERSION}</version>
                 <executions>
                     <execution>
                         <goals>

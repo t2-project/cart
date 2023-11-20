@@ -1,14 +1,15 @@
 package de.unistuttgart.t2.cart;
 
+import de.unistuttgart.t2.cart.repository.CartRepository;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
-
-import de.unistuttgart.t2.cart.repository.CartRepository;
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.info.Info;
 
 /**
  * Manages the products in the users carts.
@@ -36,10 +37,10 @@ public class CartApplication {
     }
 
     @Bean
-    public OpenAPI customOpenAPI() {
-        return new OpenAPI()
-            .components(new Components())
-            .info(new Info().title("Cart service API").description(
-                "API of the T2-Project's cart service."));
+    public OpenAPI customOpenAPI(@Value("${info.app.version:unknown}") String version) {
+        return new OpenAPI().components(new Components()).info(new Info()
+            .title("T2 Cart service API")
+            .description("API of the T2-Project's cart service.")
+            .version(version));
     }
 }

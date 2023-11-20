@@ -1,24 +1,29 @@
 package de.unistuttgart.t2.cart;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.Map;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.*;
-
-import org.junit.jupiter.api.*;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import de.unistuttgart.t2.cart.repository.CartItem;
+import de.unistuttgart.t2.cart.repository.CartRepository;
+import de.unistuttgart.t2.common.CartContent;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.context.*;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import de.unistuttgart.t2.cart.repository.*;
-import de.unistuttgart.t2.common.CartContent;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test for the generated endpoints.
@@ -32,9 +37,11 @@ import de.unistuttgart.t2.common.CartContent;
  *
  * @author maumau
  */
+
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TestContext.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@EnableAutoConfiguration
+@EnableMongoRepositories(basePackageClasses = { CartRepository.class })
+@SpringBootTest(classes = {ServletWebServerFactoryAutoConfiguration.class,  }, webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 class CartTests {
 
@@ -44,10 +51,13 @@ class CartTests {
     @Autowired
     private TestRestTemplate restTemplate;
 
+    @Autowired
+    private CartRepository repository;
+
     private int initialSize;
 
     @BeforeEach
-    public void populateRepository(@Autowired CartRepository repository) {
+    public void populateRepository() {
         CartItem emptyCart = new CartItem("foo");
         CartItem filledCart = new CartItem("bar", Map.of("id1", 3, "id2", 4));
         repository.save(emptyCart);

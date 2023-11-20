@@ -1,9 +1,11 @@
 package de.unistuttgart.t2.cart.repository;
 
-import java.time.Instant;
-import java.util.*;
-
 import org.springframework.data.annotation.Id;
+
+import java.time.Instant;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The content of someones cart.
