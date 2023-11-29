@@ -1,26 +1,28 @@
 package de.unistuttgart.t2.cart.repository;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.Instant;
 import java.util.Date;
 
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.*;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TestContext.class)
-@SpringBootTest
-@ActiveProfiles("test")
 /**
  * Tests that the collector for expired carts works as expected.
  *
  * @author maumau
  */
+@DataMongoTest
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = TestContext.class)
+@ActiveProfiles("test")
 class CollectorTests {
 
     @Autowired
@@ -38,13 +40,13 @@ class CollectorTests {
     }
 
     @Test
-    public void collectAllEntriesTest() throws InterruptedException {
+    public void collectAllEntriesTest() {
         collector.cleanup();
         assertEquals(0, repository.count());
     }
 
     @Test
-    public void collectSomeEntriesTest() throws InterruptedException {
+    public void collectSomeEntriesTest() {
         CartItem item = new CartItem();
         item.setCreationDate(Date.from(Instant.now().plusSeconds(60)));
         repository.save(item);
