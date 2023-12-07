@@ -1,0 +1,25 @@
+### CART
+# Dev profile (other services have to be started locally)
+server:
+  port: 8080
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/data
+
+t2:
+  cart:
+    TTL: 0
+    taskRate: 0
+
+opentracing:
+  jaeger:
+    service-name: cart
+    enabled: false
+    udp-sender:
+      host: localhost
+
+logging:
+  level:
+    de.unistuttgart.t2: DEBUG
