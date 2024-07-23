@@ -1,4 +1,4 @@
-name: build, update parent repository and push docker image
+name: build and push docker image
 on:
   push:
     branches:
@@ -20,17 +20,10 @@ jobs:
       with:
         repository: t2-project/microservices
         submodules: true
-    - name: Pull & update submodules recursively
+    - name: Ensure to use latest main from repo
       run: |
-        git submodule update --init --recursive
-        git submodule update --recursive --remote
-    - name: Commit to parent repository
-      run: |
-        git config user.email "actions@github.com"
-        git config user.name "GitHub Actions - update submodules"
-        git add --all
-        git commit -m "Update submodules" || echo "No changes to commit"
-        git push
+        git submodule update --init
+        cd cart && git checkout main
     - name: Set up jdk
       uses: actions/setup-java@v4
       with:
