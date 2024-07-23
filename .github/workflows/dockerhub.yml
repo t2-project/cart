@@ -19,8 +19,16 @@ jobs:
       uses: actions/checkout@v4
       with:
         repository: t2-project/microservices
-        path: './microservices'
-        submodules: 'true'
+        path: './parent'
+    - name: check out common
+      uses: actions/checkout@v4
+      with:
+        repository: t2-project/common
+        path: './parent/common'
+    - name: check out cart
+      uses: actions/checkout@v4
+      with:
+        path: './parent/cart'
     - name: set up jdk
       uses: actions/setup-java@v4
       with:
