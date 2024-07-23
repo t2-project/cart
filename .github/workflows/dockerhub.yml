@@ -23,6 +23,7 @@ jobs:
     - name: Ensure to use latest main from repo
       run: |
         git submodule update --init
+        cd common && git checkout main
         cd cart && git checkout main
     - name: Set up jdk
       uses: actions/setup-java@v4
@@ -30,8 +31,10 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
         cache: 'maven'
-    - name: Maven build cart
-      run: chmod +x mvnw && ./mvnw --projects cart --also-make clean install
+    - name: Maven build
+      run: |
+        chmod +x mvnw
+        ./mvnw --projects cart --also-make clean install
     - run: |
         echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
     - name: Docker build and push (manual)
