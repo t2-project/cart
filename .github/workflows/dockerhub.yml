@@ -1,4 +1,4 @@
-name: build and push docker image
+name: build, update parent repository and push docker image
 on:
   push:
     branches:
@@ -20,14 +20,25 @@ jobs:
       with:
         repository: t2-project/microservices
         submodules: true
-    - name: set up jdk
+    - name: Pull & update submodules recursively
+      run: |
+        git submodule update --init --recursive
+        git submodule update --recursive --remote
+    - name: Commit to parent repository
+      run: |
+        git config user.email "actions@github.com"
+        git config user.name "GitHub Actions - update submodules"
+        git add --all
+        git commit -m "Update submodules" || echo "No changes to commit"
+        git push
+    - name: Set up jdk
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
         java-version: '17'
         cache: 'maven'
     - name: Maven build cart
-      run: ./mvnw --projects cart --also-make clean install
+      run: chmod +x mvnw && ./mvnw --projects cart --also-make clean install
     - run: |
         echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
     - name: Docker build and push (manual)
