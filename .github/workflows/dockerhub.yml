@@ -18,31 +18,22 @@ jobs:
     - name: check out parent
       uses: actions/checkout@v4
       with:
+        repository: t2-project/microservices
         path: './microservices'
-    - name: check out parent
-      uses: actions/checkout@v4
-      with:
-        path: './cart'
-    - name: check out common
-      uses: actions/checkout@v4
-      with:
-        repository: t2-project/common
-        path: './common'
+        submodules: 'true'
     - name: set up jdk
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
         java-version: '17'
         cache: 'maven'
-    - name: Maven build common
-      run: cd common && ./mvnw clean install
     - name: Maven build cart
-      run: cd cart && ./mvnw clean install
+      run: ./mvnw --projects common,cart --also-make clean install
     - run: |
         echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
     - name: Docker build and push (manual)
       run: |
         echo ${{ env.RELEASE_VERSION }}
-        cd cart
+        cd parent/cart
         docker build -t t2project/cart:${{ env.RELEASE_VERSION }} .
         docker push t2project/cart:${{ env.RELEASE_VERSION }}
