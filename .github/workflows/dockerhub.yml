@@ -20,12 +20,10 @@ jobs:
       with:
         repository: t2-project/microservices
         submodules: true
-    - name: Ensure to use latest common
+    - name: Ensure to use latest versions
       run: |
-        cd common && git checkout main
-    - name: Ensure to use latest main from repo
-      run: |
-        cd cart && git checkout main
+        git submodule update --init --recursive
+        git submodule update --recursive --remote
     - name: Set up jdk
       uses: actions/setup-java@v4
       with:
