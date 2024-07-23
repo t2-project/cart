@@ -36,7 +36,7 @@ jobs:
         java-version: '17'
         cache: 'maven'
     - name: Maven build cart
-      run: ./mvnw --projects cart --also-make clean install
+      run: chmod +x ./mvnw && ./mvnw --projects cart --also-make clean install
     - run: |
         echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
     - name: Docker build and push (manual)
